@@ -28596,7 +28596,7 @@ function getLineGraph(options) {
         };
         let response = null;
         try {
-            response = yield axios_1.default.put('https://api.globadge.com/v1/chartgen/line/time', payload);
+            response = yield axios_1.default.put('https://globadge-com-compatible-charts-generator.aleks00799.workers.dev/v1/chartgen/line/time', payload);
         }
         catch (error) {
             logger.error(error);
@@ -28625,7 +28625,7 @@ function getStackedAreaGraph(options) {
         };
         let response = null;
         try {
-            response = yield axios_1.default.put('https://api.globadge.com/v1/chartgen/stacked-area/time', payload);
+            response = yield axios_1.default.put('https://globadge-com-compatible-charts-generator.aleks00799.workers.dev/v1/chartgen/stacked-area/time', payload);
         }
         catch (error) {
             logger.error(error);

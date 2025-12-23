@@ -376,7 +376,7 @@ async function getLineGraph(options: LineGraphOptions): Promise<GraphResponse> {
   let response = null
   try {
     response = await axios.put(
-      'https://api.globadge.com/v1/chartgen/line/time',
+      'https://globadge-com-compatible-charts-generator.aleks00799.workers.dev/v1/chartgen/line/time',
       payload
     )
   } catch (error: any) {
@@ -410,7 +410,7 @@ async function getStackedAreaGraph(
   let response = null
   try {
     response = await axios.put(
-      'https://api.globadge.com/v1/chartgen/stacked-area/time',
+      'https://globadge-com-compatible-charts-generator.aleks00799.workers.dev/v1/chartgen/stacked-area/time',
       payload
     )
   } catch (error: any) {
