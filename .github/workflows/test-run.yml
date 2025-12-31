@@ -33,6 +33,7 @@ jobs:
           proc_trace_sys_enable: true
           job_summary: true
           proc_trace_table_show: true
+          charts_auth_token: ${{ secrets.CHARTS_AUTH_TOKEN }}
 
       - name: Simulate some workload
         run: |

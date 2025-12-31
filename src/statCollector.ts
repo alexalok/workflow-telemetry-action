@@ -27,6 +27,27 @@ const STAT_SERVER_PORT = 7777
 const BLACK = '#000000'
 const WHITE = '#FFFFFF'
 
+function ensureChartAuthToken(): void {
+  if (process.env.GHA_TELEMETRY_AUTH_TOKEN) {
+    return
+  }
+
+  const token = core.getInput('charts_auth_token', { required: true })
+  process.env.GHA_TELEMETRY_AUTH_TOKEN = token
+}
+
+function getChartAuthHeaders(): { Authorization: string } {
+  ensureChartAuthToken()
+  const token = process.env.GHA_TELEMETRY_AUTH_TOKEN
+  if (!token) {
+    throw new Error(
+      'GHA_TELEMETRY_AUTH_TOKEN secret is required for chart generation requests.'
+    )
+  }
+
+  return { Authorization: token }
+}
+
 async function triggerStatCollect(): Promise<void> {
   logger.debug('Triggering stat collect ...')
   const response = await axios.post(
@@ -375,9 +396,11 @@ async function getLineGraph(options: LineGraphOptions): Promise<GraphResponse> {
 
   let response = null
   try {
+    const requestConfig = { headers: getChartAuthHeaders() }
     response = await axios.put(
       'https://globadge-com-compatible-charts-generator.aleks00799.workers.dev/v1/chartgen/line/time',
-      payload
+      payload,
+      requestConfig
     )
   } catch (error: any) {
     logger.error(error)
@@ -409,9 +432,11 @@ async function getStackedAreaGraph(
 
   let response = null
   try {
+    const requestConfig = { headers: getChartAuthHeaders() }
     response = await axios.put(
       'https://globadge-com-compatible-charts-generator.aleks00799.workers.dev/v1/chartgen/stacked-area/time',
-      payload
+      payload,
+      requestConfig
     )
   } catch (error: any) {
     logger.error(error)

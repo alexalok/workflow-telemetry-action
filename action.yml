@@ -42,6 +42,10 @@ inputs:
     description: "Set to `dark` to generate charts compatible with Github dark mode. Defaults to 'light'."
     default: "light"
     required: false
+secrets:
+  charts_auth_token:
+    description: "Authorization token used for chart generation requests."
+    required: true
 
 runs:
   using: "node20"
