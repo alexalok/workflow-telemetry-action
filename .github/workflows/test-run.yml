@@ -1,0 +1,49 @@
+name: Test Run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-run:
+    name: Test Run
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build action
+        run: npm run package
+
+      - name: Run local Workflow Telemetry Action
+        uses: ./
+        with:
+          proc_trace_sys_enable: true
+          job_summary: true
+          proc_trace_table_show: true
+
+      - name: Simulate some workload
+        run: |
+          echo "Starting simulation..."
+          sleep 5
+          echo "Running some commands to generate telemetry data..."
+          ls -la
+          df -h
+          free -m
+          curl -I https://github.com
+          sleep 5
+          echo "Simulation finished."
+
+
